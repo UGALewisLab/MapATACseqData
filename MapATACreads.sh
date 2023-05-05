@@ -22,8 +22,8 @@ mkdir ${OUTDIR}
 
 # #process reads using trimGalore
 #
-#  ml Trim_Galore/0.6.5-GCCcore-8.3.0-Java-11-Python-3.7.4
-#  trim_galore --paired --length 20 --fastqc --gzip -o ${OUTDIR}/TrimmedReads ${FASTQ}/*fastq\.gz
+ml Trim_Galore/0.6.5-GCCcore-8.3.0-Java-11-Python-3.7.4
+trim_galore --paired --length 20 --fastqc --gzip -o ${OUTDIR}/TrimmedReads ${FASTQ}/*fastq\.gz
 # #
 FILES="${OUTDIR}/TrimmedReads/*R1_001_val_1\.fq\.gz" #Don't forget the *
 #
