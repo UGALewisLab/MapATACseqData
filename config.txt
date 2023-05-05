@@ -2,7 +2,7 @@
 THREADS=12
 
 #FASTQ should be the path to a folder containing all your zipped fastq files; filename endings should be fastq.gz
-
+#do not end in "/"
 FASTQ="Path/To/FastQ"
 
 #Edit Code to add Q score option
