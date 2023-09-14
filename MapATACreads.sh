@@ -22,7 +22,7 @@ mkdir ${OUTDIR}
 
 # #process reads using trimGalore
 #
-ml Trim_Galore/0.6.5-GCCcore-8.3.0-Java-11-Python-3.7.4
+ ml Trim_Galore/0.6.7-GCCcore-11.2.0
 trim_galore --paired --length 20 --fastqc --gzip -o ${OUTDIR}/TrimmedReads ${FASTQ}/*fastq\.gz
 # #
 FILES="${OUTDIR}/TrimmedReads/*R1_001_val_1\.fq\.gz" #Don't forget the *
@@ -60,8 +60,8 @@ do
 	#QualityBam="${OUTDIR}/SortedBamFiles/${name}_Q30.bam"
 #
 
-ml SAMtools/1.9-GCC-8.3.0
-ml BWA/0.7.17-GCC-8.3.0
+ml SAMtools/1.16.1-GCC-11.3.0 
+ml BWA/0.7.17-GCCcore-11.3.0
 #
 bwa mem -M -v 3 -t $THREADS $GENOME $f $read2 | samtools view -bhSu - | samtools sort -@ $THREADS -T $OUTDIR/SortedBamFiles/tempReps -o "$bam" -
 samtools index "$bam"
@@ -78,7 +78,8 @@ samtools index "$bam"
 
 ############################
 # # #deeptools
-ml deepTools/3.3.1-intel-2019b-Python-3.7.4
+
+ml deepTools/3.5.2-foss-2022a
 alignmentSieve -p $THREADS --ATACshift --bam ${bam} -o ${name}.tmp.bam
 
 # the bam file needs to be sorted again
