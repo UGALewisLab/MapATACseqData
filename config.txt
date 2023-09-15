@@ -29,6 +29,10 @@ GENOME="/home/zlewis/Genomes/Neurospora/Nc12_RefSeq/GCA_000182925.2_NC12_genomic
 #GENOME="/home/zlewis/Genomes/AfumagatisGenome/AspergillusFumagatis_GCF_000002655.1/Afumagatis_GCF_000002655.1"  #Aspergillus fumigatus AF293
 #GENOME="/home/zlewis/Genomes/AfumagatisGenome/Af293_w_Cyp51Avariants/Af293wCyp51Avariants #Aspergillus fumigatus with Cyp51A variants
 
+#GENOME="/home/zlewis/Genomes/AfumagatisGenome/Af293_w_Cyp51Avariants/CM000172_withCyp51A_hph.fasta"
+#GENOME="/home/zlewis/Genomes/AfumagatisGenome/Af293_w_Cyp51Avariants/CM000172_withCyp51A_TR34.fasta"
+#GENOME="/home/zlewis/Genomes/AfumagatisGenome/Af293_w_Cyp51Avariants/CM000172_withCyp51A_TR46.fasta"
+
 #GENOME="/home/zlewis/Genomes/Anidulans/A_nidulans_FGSC_A4_current_chromosomes.fasta"  #Aspergillus nidulans A4
 #GENOME="/home/zlewis/Genomes/Neurospora/Neurospora12/neurospora_crassa_or74a_12_supercontigs.fasta" #Neurospora BROAD Genome Annotation
 #GENOME="/home/zlewis/Genomes/RhizophusDelemar/FungiDB/FungiDB-56_RdelemarRA99-880_Genome.fasta" #Rhizopus delemar
