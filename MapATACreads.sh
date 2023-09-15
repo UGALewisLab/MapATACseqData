@@ -22,9 +22,9 @@ mkdir ${OUTDIR}
 
 # #process reads using trimGalore
 #
- ml Trim_Galore/0.6.7-GCCcore-11.2.0
+ml Trim_Galore/0.6.7-GCCcore-11.2.0
 trim_galore --paired --length 20 --fastqc --gzip -o ${OUTDIR}/TrimmedReads ${FASTQ}/*fastq\.gz
-# #
+#
 FILES="${OUTDIR}/TrimmedReads/*R1_001_val_1\.fq\.gz" #Don't forget the *
 #
  mkdir "${OUTDIR}/SortedBamFiles"
@@ -53,8 +53,9 @@ do
 	read2=$(echo "$f" | sed 's/R1_001_val_1\.fq\.gz/R2_001_val_2\.fq\.gz/g')
 	#variable for naming bam file
  	bam="${OUTDIR}/SortedBamFiles/${name}.bam"
-  deduped="${OUTDIR}/SortedBamFiles/${name}_deduped.bam"
-  bed="${OUTDIR}/Beds/${name}.bed"
+	shifted="${OUTDIR}/SortedBamFiles/${name}.shifted.bam"
+  	deduped="${OUTDIR}/SortedBamFiles/${name}_deduped.bam"
+  	bed="${OUTDIR}/Beds/${name}.bed"
 	#variable name for bigwig output
 	bigwig="${OUTDIR}/BigWigs/${name}"
 	#QualityBam="${OUTDIR}/SortedBamFiles/${name}_Q30.bam"
@@ -63,7 +64,7 @@ do
 ml SAMtools/1.16.1-GCC-11.3.0 
 ml BWA/0.7.17-GCCcore-11.3.0
 #
-bwa mem -M -v 3 -t $THREADS $GENOME $f $read2 | samtools view -bhSu - | samtools sort -@ $THREADS -T $OUTDIR/SortedBamFiles/tempReps -o "$bam" -
+bwa mem -M -v 3 -a -t $THREADS $GENOME $f $read2 | samtools view -bhSu - | samtools sort -@ $THREADS -T $OUTDIR/SortedBamFiles/tempReps -o "$bam" -
 samtools index "$bam"
 
 #module load picard/2.27.4-Java-13.0.2
@@ -77,18 +78,17 @@ samtools index "$bam"
 #perl ./shiftTn5_BAM_2_BED.pl "${bam}" > "${name}.bed"
 
 ############################
-# # #deeptools
-
-ml deepTools/3.5.2-foss-2022a
+# #deeptools
+module load deepTools/3.5.2-foss-2022a
 alignmentSieve -p $THREADS --ATACshift --bam ${bam} -o ${name}.tmp.bam
 
 # the bam file needs to be sorted again
-samtools sort -@ $THREADS -O bam -o ${name}.shifted.bam ${name}.tmp.bam
-samtools index -@ $THREADS ${name}.shifted.bam
+samtools sort -@ $THREADS -O bam -o ${shifted} ${name}.tmp.bam
+samtools index -@ $THREADS ${shifted}
 rm ${name}.tmp.bam
 
 #Plot all reads
-bamCoverage -p $THREADS -bs 1 --normalizeUsing BPM --Offset 1 3 -of bigwig -b "$bam" -o "${bigwig}.bin_${BIN}.smooth_${SMOOTH}Bulk.bw"
+bamCoverage -p $THREADS --Offset 1 3 -bs 3 --smoothLength 6 --normalizeUsing BPM  -of bigwig -b ${shifted} -o "${bigwig}.ATAC_bin_3.smooth_6_Bulk.bw"
 
 #plot mononucleosomes
 #bamCoverage -p $THREADS --MNase -bs 1 --normalizeUsing BPM --smoothLength 25 -of bigwig -b "$bam" -o "${bigwig}.bin_${BIN}.smooth_${SMOOTH}_MNase.bw"
