@@ -7,8 +7,8 @@
 #SBATCH --cpus-per-task=24
 #SBATCH --mem=50gb
 #SBATCH --time=48:00:00
-#SBATCH --output=../MapATAC.%j.out
-#SBATCH --error=../ATAC.%j.err
+#SBATCH --output=./MapATAC.%j.out
+#SBATCH --error=./MapATAC.%j.err
 
 cd $SLURM_SUBMIT_DIR
 
@@ -22,7 +22,7 @@ mkdir ${OUTDIR}
 
 # #process reads using trimGalore
 #
-ml Trim_Galore/0.6.7-GCCcore-11.2.0
+module load Trim_Galore/0.6.10-GCCcore-12.3.0
 trim_galore --paired --length 20 --fastqc --gzip -o ${OUTDIR}/TrimmedReads ${FASTQ}/*fastq\.gz
 #
 FILES="${OUTDIR}/TrimmedReads/*R1_001_val_1\.fq\.gz" #Don't forget the *
@@ -60,9 +60,9 @@ do
 	bigwig="${OUTDIR}/BigWigs/${name}"
 	#QualityBam="${OUTDIR}/SortedBamFiles/${name}_Q30.bam"
 #
+module load  SAMtools/1.21-GCC-13.3.0
+module load  BWA/0.7.18-GCCcore-13.3.0
 
-ml SAMtools/1.16.1-GCC-11.3.0 
-ml BWA/0.7.17-GCCcore-11.3.0
 #
 bwa mem -M -v 3 -a -t $THREADS $GENOME $f $read2 | samtools view -bhSu - | samtools sort -@ $THREADS -T $OUTDIR/SortedBamFiles/tempReps -o "$bam" -
 samtools index "$bam"
@@ -79,7 +79,7 @@ samtools index "$bam"
 
 ############################
 # #deeptools
-module load deepTools/3.5.2-foss-2022a
+module load deepTools/3.5.5-gfbf-2023a
 alignmentSieve -p $THREADS --ATACshift --bam ${bam} -o ${name}.tmp.bam
 
 # the bam file needs to be sorted again
@@ -88,7 +88,7 @@ samtools index -@ $THREADS ${shifted}
 rm ${name}.tmp.bam
 
 #Plot all reads
-bamCoverage -p $THREADS --Offset 1 3 -bs 3 --smoothLength 6 --normalizeUsing BPM  -of bigwig -b ${shifted} -o "${bigwig}.ATAC_bin_3.smooth_6_Bulk.bw"
+bamCoverage -p $THREADS --Offset 1 1 -bs 1 --smoothLength 6 --normalizeUsing BPM  -of bigwig -b ${shifted} -o "${bigwig}.ATAC_bin_1smooth_1_Bulk.bw"
 
 #plot mononucleosomes
 #bamCoverage -p $THREADS --MNase -bs 1 --normalizeUsing BPM --smoothLength 25 -of bigwig -b "$bam" -o "${bigwig}.bin_${BIN}.smooth_${SMOOTH}_MNase.bw"

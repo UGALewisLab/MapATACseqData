@@ -9,7 +9,7 @@ FASTQ="Path/To/FastQ"
 
 #Name of Output directory. This will be created one directory above the folder you run the MapCutAndRun.sh script from.   
 
-OutputFolderName="PathToOutput"
+OutputFolderName="Path"
 
 
 #GENOME should be the path to a bwa-indexed genome file; include the entire root file name; you can uncomment formatted genome you want to use or add a path to a different genome
@@ -20,7 +20,7 @@ OutputFolderName="PathToOutput"
 
 #GENOME="/home/zlewis/Genomes/AfumagatisGenome/Af293_complete_Cyp51A_variants/GCF_000002655.1_ASM265v1_genomic_TR46_Cyp51A_hph.fna" #complete genome with TR46_Cyp51A transgene from the MoyeRowley lab
 #GENOME="/home/zlewis/Genomes/AfumagatisGenome/Af293_complete_Cyp51A_variants/GCF_000002655.1_ASM265v1_genomic_TR34_Cyp51A_hph.fna" #complete genome with TR34_Cyp51A transgene from the MoyeRowley lab
-#GENOME="/home/zlewis/Genomes/AfumagatisGenome/Af293_complete_Cyp51A_variants/GCF_000002655.1_ASM265v1_genomic_Cyp51A_hph.fna"       #complete genome with WT_Cyp51A transgene from the MoyeRowley lab
+GENOME="/home/zlewis/Genomes/AfumagatisGenome/Af293_complete_Cyp51A_variants/GCF_000002655.1_ASM265v1_genomic_Cyp51A_hph.fna"       #complete genome with WT_Cyp51A transgene from the MoyeRowley lab
 #GENOME="/home/zlewis/Genomes/AfumagatisGenome/Af_CEA10/Afum_A1163_edit6.fasta"
 #GENOME="/home/zlewis/Genomes/Neurospora/Nc12_RefSeq/GCA_00182925.2plusHphplusBarplusTetO.fna" #Neurospora12 Genbank
 #GENOME="/home/zlewis/Genomes/Neurospora/Nc12_RefSeq/GCA_00182925.2plusHphplusBarplusTetO_his3masked.fna"
